@@ -1,15 +1,13 @@
 import sys
 
 # instruction definition
+HLT = 0b00000001  # HALT: STOP
 LDI = 0b10000010  # LDI: PRINT IMMEDIATE NUMBER
 CMP = 0b10100111  # CMP: This is an instruction handled by the ALU
 JMP = 0b01010100  # JEQ : JUMP TO THE ADDRESS STORED IN THE GIVEN REGISTER
 JEQ = 0b01010101  # JEQ : JUMP TO GIVEN REGISTER
 JNE = 0b01010110  # JEQ : JUMP TO GIVEN REGISTER
-# flags
-l_flag = 0b100
-g_flag = 0b010
-e_flag = 0b001
+PRN = 0b01000111  # PRN: PRINT NUMERIC VALUE STORED
 
 
 class CPU:
@@ -18,14 +16,22 @@ class CPU:
         self.reg = [0]*8  # list of registers
         self.pc = 0  # program counter
         self.sp = 7  # stack pointer
+        self.flags = {}
         # branch set up
-        self.flags = 0b00000001
         self.branch = {}
+        self.branch[HLT] = self.HLT
         self.branch[LDI] = self.LDI
         self.branch[CMP] = self.CMP
         self.branch[JEQ] = self.JEQ
         self.branch[JMP] = self.JMP
         self.branch[JNE] = self.JNE
+        self.branch[PRN] = self.PRN
+
+    def PRN(self):
+        # print numeric value stored in the given register
+        address = self.ram[self.pc + 1]
+        print(f'reg[0]: {self.reg[address]}')
+        self.pc += 2
 
     def JMP(self):
         '''
@@ -33,30 +39,31 @@ class CPU:
 
         Set the PC to the address stored in the given register.
         '''
-        address = self.reg[self.pc+1]
+        address = self.ram[self.pc+1]
 
-        self.pc = address
-
-        self.pc += 2
+        self.pc = self.reg[address]
 
     def JNE(self):
         '''
         If E flag is clear (false, 0), jump to the address stored in the given register.        
         '''
-        address = self.reg[self.pc + 1]
+        address = self.ram[self.pc + 1]
+        if self.flags['E'] == 0:
+            self.pc = self.reg[address]
 
-        if self.flags == 0:
-            self.pc = address
-
-        self.pc += 2
+        else:
+            self.pc += 2
 
     def JEQ(self):
         '''
         If equal flag is set true, jump to the address stored in the given register
         '''
-        if self.flags == e_flag:
-            self.pc = self.reg[self.pc+1]
-        self.pc += 2
+        address = self.ram[self.pc + 1]
+
+        if self.flags['E'] == 1:
+            self.pc = self.reg[address]
+        else:
+            self.pc += 2
 
     def CMP(self):
         '''
@@ -73,18 +80,23 @@ class CPU:
         if operation == 'cmp':
             if reg_a == reg_b:
                 # set the Equal flag to 1
-                self.flags = e_flag
+                self.flags['E'] = 1
+            else:
                 # else set to 0
+                self.flags['E'] = 0
             if reg_a < reg_b:
                 # set lessthan flag to 1
-                self.flags = l_flag
+                self.flags['L'] = 1
+            else:
                 # else set to 0
+                self.flags['L'] = 0
             if reg_a > reg_b:
                 # set set greater than G flag to 1
-                self.flags = g_flag
-                # else set to 0
+                self.flags['G'] = 1
             else:
-                self.flags = 0
+                self.flags['G'] = 0
+                # else set to 0
+
         else:
             raise Exception('unsupported alu operation')
 
@@ -100,6 +112,12 @@ class CPU:
         self.reg[register] = num
 
         self.pc += 3
+
+    def HLT(self):
+        print('reg: ', c.reg)
+        print('memory: ', c.ram)
+        print('bye, bye')
+        sys.exit(0)
 
     def load(self, filename):
         """Load a program into memory."""
@@ -127,9 +145,16 @@ class CPU:
         '''
         Run the program
         '''
+        print(self.ram)
         while True:
+
             command = self.ram[self.pc]
-            self.branch[command]()
+
+            if command in self.branch:
+                self.branch[command]()
+            else:
+                print(f'command not in branch {command}')
+                self.pc += 2
 
 
 if len(sys.argv) != 2:

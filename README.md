@@ -5,7 +5,9 @@ the past week and apply them in a concrete project. This Sprint explored TOPIC.
 During this Sprint, you studied CPU components, number bases, bitwise
 operations, CPU stack, interrupts, and subroutines.
 
-In your challenge this week, you will demonstrate proficiency by adding _conditional jumps_ to your LS-8 emulator as well as answering a few questions during a one-on-one session with a PM.
+In your challenge this week, you will demonstrate proficiency by adding
+_conditional jumps_ to your LS-8 emulator as well as answering a few questions
+during a one-on-one session with a PM.
 
 ## Instructions
 
@@ -28,30 +30,32 @@ You have three hours to complete this challenge. Plan your time accordingly.
 ## Commits
 
 Commit your code regularly and meaningfully. This helps both you (in case you
-ever need to return to old code for any number of reasons and your project manager.
+ever need to return to old code for any number of reasons and your project
+manager.
 
 ## Description
 
-In this code challenge, you will add _conditional jumps_ (AKA _conditional branching_) to your LS-8 emulator.
+In this code challenge, you will add _conditional jumps_ (AKA _conditional
+branching_) to your LS-8 emulator.
 
 ## Project Set Up
 
 Options for submission, whichever is easier for you:
 
-* Copy your source into this repo, or...
+-   Copy your source into this repo, or...
 
-* Submit a PR for the Sprint Challenge from the `Computer-Architecture` repo
-  you've been using all along.
+-   Submit a PR for the Sprint Challenge from the `Computer-Architecture` repo
+    you've been using all along.
 
 ## Minimum Viable Product
 
 Your finished project must include all of the following requirements:
 
-- [ ] Add the `CMP` instruction and `equal` flag to your LS-8.
+-   [x] Add the `CMP` instruction and `equal` flag to your LS-8.
 
-- [ ] Add the `JMP` instruction.
+-   [x] Add the `JMP` instruction.
 
-- [ ] Add the `JEQ` and `JNE` instructions.
+-   [x] Add the `JEQ` and `JNE` instructions.
 
 [See the LS-8 spec for details](https://github.com/LambdaSchool/Computer-Architecture/blob/master/LS8-spec.md)
 
@@ -61,7 +65,8 @@ work and perform basic professional polishing including spell-checking and
 grammar-checking on your work. It is better to submit a challenge that meets MVP
 than one that attempts too much and does not.
 
-Validate your work through testing and ensure that your code operates as designed.
+Validate your work through testing and ensure that your code operates as
+designed.
 
 [Here is some code](sctest.ls8) that exercises the above instructions. It should
 print:
@@ -168,7 +173,8 @@ goals may or may not be things you have learned in this module but they build on
 the material you just studied. Time allowing, stretch your limits and see if you
 can deliver on the following optional goals:
 
-- [ ] Add the ALU operations: `AND` `OR` `XOR` `NOT` `SHL` `SHR` `MOD`
-- [ ] Add an `ADDI` extension instruction to add an immediate value to a register
-- [ ] Add timer interrupts
-- [ ] Add keyboard interrupts
+-   [ ] Add the ALU operations: `AND` `OR` `XOR` `NOT` `SHL` `SHR` `MOD`
+-   [ ] Add an `ADDI` extension instruction to add an immediate value to a
+        register
+-   [ ] Add timer interrupts
+-   [ ] Add keyboard interrupts
